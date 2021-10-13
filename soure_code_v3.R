@@ -170,7 +170,7 @@ GDCprepare(TCGA_READ_methy_query)->TCGA_READ_methy_beta;
 assay(TCGA_READ_methy_beta)->TCGA_READ_methy_beta;
 #---------------------------------------------------------------------------------------------
 #-----------------merge COAD and READ:
-rbind(TCGA_COAD_clinical_infor,TCGA_COAD_clinical_infor)->TCGA_CRC_clinical_infor;
+rbind(TCGA_COAD_clinical_infor,TCGA_READ_clinical_infor)->TCGA_CRC_clinical_infor;
 merge(TCGA_COAD_expr_fpkm,TCGA_READ_expr_fpkm,by=0)->TCGA_CRC_expr_fpkm;
 merge(TCGA_COAD_methy_beta,TCGA_READ_methy_beta,by=0)->TCGA_CRC_methy_beta;
 #------save the data:
