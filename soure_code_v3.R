@@ -386,6 +386,8 @@ draw_multiClass_roc_v3<-function(dat,Y_label,variables,myd_colors,gtitle,ci_valu
 #----------------Figure 1C: calculate the optimal beta values: 100 times of sampling; 
 c()->TCGA_g1_best_cutoff;
 c()->TCGA_g2_best_cutoff;
+sd(TCGA_CRC_methy_factor$SDC2_P[which(TCGA_CRC_methy_factor$Y_label==0)])->TCGA_g1_sd;
+sd(TCGA_CRC_methy_factor$TFPI2_P[which(TCGA_CRC_methy_factor$Y_label==0)])->TCGA_g2_sd;
 for(i in 1:100){
 	set.seed(i^2+i*3+i);
 	which(TCGA_CRC_methy_factor$Y_label==0)->n_index;
@@ -393,11 +395,11 @@ for(i in 1:100){
 	TCGA_CRC_methy_factor[c(n_index,t_index),]->tmp_d;
 	#---SDC2_P
 	do_logistic_fit(tmp_d,"Y_label","SDC2_P")->TCGA_CRC_methy_logit_res1;
-	get_x_cutoff(coef(TCGA_CRC_methy_logit_res1$model),coords(TCGA_CRC_methy_logit_res1$roc,"b", ret = "t", best.method = "youden"))+0.02->tmp_d_v;
+	get_x_cutoff(coef(TCGA_CRC_methy_logit_res1$model),coords(TCGA_CRC_methy_logit_res1$roc,"b", ret = "t", best.method = "youden"))+TCGA_g1_sd->tmp_d_v;
 	c(TCGA_g1_best_cutoff,tmp_d_v)->TCGA_g1_best_cutoff;
 	#---TFPI2_P
 	do_logistic_fit(tmp_d,"Y_label","TFPI2_P")->TCGA_CRC_methy_logit_res2;
-	get_x_cutoff(coef(TCGA_CRC_methy_logit_res2$model),coords(TCGA_CRC_methy_logit_res2$roc,"b", ret = "t", best.method = "youden"))-0.07->tmp_d_v;
+	get_x_cutoff(coef(TCGA_CRC_methy_logit_res2$model),coords(TCGA_CRC_methy_logit_res2$roc,"b", ret = "t", best.method = "youden"))-TCGA_g2_sd->tmp_d_v;
 	c(TCGA_g2_best_cutoff,tmp_d_v)->TCGA_g2_best_cutoff;
 }
 ggboxplot(TCGA_g1_best_cutoff,add="mean_sd",error.plot="crossbar")#SDC2
