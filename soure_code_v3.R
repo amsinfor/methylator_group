@@ -386,8 +386,8 @@ draw_multiClass_roc_v3<-function(dat,Y_label,variables,myd_colors,gtitle,ci_valu
 #----------------Figure 1C: calculate the optimal beta values: 100 times of sampling; 
 c()->TCGA_g1_best_cutoff;
 c()->TCGA_g2_best_cutoff;
-sd(TCGA_CRC_methy_factor$SDC2_P[which(TCGA_CRC_methy_factor$Y_label==0)])->TCGA_g1_sd;
-sd(TCGA_CRC_methy_factor$TFPI2_P[which(TCGA_CRC_methy_factor$Y_label==0)])->TCGA_g2_sd;
+sd(TCGA_CRC_methy_factor$SDC2_P[which(TCGA_CRC_methy_factor$Y_label==0)])->TCGA_g1_sd;#for standard deviation of SDC2_P beta values
+sd(TCGA_CRC_methy_factor$TFPI2_P[which(TCGA_CRC_methy_factor$Y_label==0)])->TCGA_g2_sd;#for standard deviation of TFPI2_P beta values
 for(i in 1:100){
 	set.seed(i^2+i*3+i);
 	which(TCGA_CRC_methy_factor$Y_label==0)->n_index;
